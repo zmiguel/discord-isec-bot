@@ -1,0 +1,28 @@
+{
+  "name": "discord-isec-bot",
+  "version": "1.0.0",
+  "description": "bot do isec",
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "^11.0.0",
+    "jsonfile": "^2.4.0",
+    "nodemon": "^1.11.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zmiguel/discord-isec-bot.git"
+  },
+  "keywords": [
+    "isec-bot"
+  ],
+  "author": "ZMiguel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zmiguel/discord-isec-bot/issues"
+  },
+  "homepage": "https://github.com/zmiguel/discord-isec-bot#readme"
+}
