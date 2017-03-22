@@ -1,5 +1,6 @@
 {
   "name": "discord-isec-bot",
+  "engines" : { "node" : ">6.5.0"}, 
   "version": "1.0.0",
   "description": "bot do isec",
   "main": "bot.js",
