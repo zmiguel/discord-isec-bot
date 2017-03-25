@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs')
+const Random = require("random-js");
+const random = new Random(Random.engines.mt19937().autoSeed());
 const bot = new Discord.Client();
 
 const config = require("./config.json");
@@ -23,10 +25,6 @@ function isUserInFile(array, string){
     }
   }
   return false;
-}
-
-function random (num) {
-    return Math.floor(Math.random() * (num - 2) + 1);
 }
 
 var cursos = ["Civil", "EGI", "Electromecânica", "Electrotécnica", "Informática", "Mecânica", "Química", "Biomédica", "Biológica", "Bioengenharia"];
@@ -311,7 +309,7 @@ bot.on('message', message => {
   //roll dice
   if (command == "roll"){
     if(argc === 1){
-      let rndNum = random(parseInt(args[0]));
+      let rndNum = random.integer(1, parseInt(args[0]));
       message.channel.sendMessage(`lançaste o dado e saiu..... **${rndNum}**!`);
     } else {
       message.reply('`.roll <numero>`, seu burro!');

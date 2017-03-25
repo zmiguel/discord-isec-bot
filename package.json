@@ -1,13 +1,14 @@
 {
   "name": "discord-isec-bot",
-  "engines" : { "node" : ">6.5.0"}, 
+  "engines" : { "node" : ">6.5.0"},
   "version": "1.0.0",
   "description": "bot do isec",
   "main": "bot.js",
   "dependencies": {
     "discord.js": "^11.0.0",
     "jsonfile": "^2.4.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "random-js": "^1.0.8"
   },
   "devDependencies": {},
   "scripts": {
