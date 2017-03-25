@@ -34,8 +34,8 @@ function pluck(array) {
 function hasRole(member, role){
   console.log(pluck(member.roles));
   for(var i = 0;i<=role.length;i++){
+    console.log(role[i]);
     if(pluck(member.roles).includes(role[i])){
-      console.log(role[i]);
       return true;
     }
   }
