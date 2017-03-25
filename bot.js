@@ -26,7 +26,7 @@ function isUserInFile(array, string){
 }
 
 function random (num) {
-    return Math.floor(Math.random() * (num - 2) + num);
+    return Math.floor(Math.random() * (num - 2) + 1);
 }
 
 var cursos = ["Civil", "EGI", "Electromecânica", "Electrotécnica", "Informática", "Mecânica", "Química", "Biomédica", "Biológica", "Bioengenharia"];
