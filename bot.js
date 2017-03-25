@@ -25,6 +25,10 @@ function isUserInFile(array, string){
   return false;
 }
 
+function random (num) {
+    return Math.floor(Math.random() * (high - 2) + num);
+}
+
 var cursos = ["Civil", "EGI", "Electromecânica", "Electrotécnica", "Informática", "Mecânica", "Química", "Biomédica", "Biológica", "Bioengenharia"];
 var blockedRoles = ["Mod", "A.E.", "Alunos", "Chefe Delas", "Pseudo-Chulo", "bot"];
 
@@ -301,7 +305,18 @@ bot.on('message', message => {
                   `.curso <lista/join> <curso>` cenas para te juntares aos chats do teu curso \n\
                   `.canal <join/leave> <nome>` permite-te juntares-te ao canal com nome x \n\
                   `.reg <email_isec>` permite-te fazer o registo no servidor \n\
+                  `.roll <numero>` atira um dado de valor X e ve o que sai\n\
                   `.help` este comando, seu burro! ');
+  }
+  //roll dice
+  if (command == "roll"){
+    if(argc === 1){
+      let rndNum = random(parseInt(args[0]));
+      message.channel.sendMessage(`lançaste o dado e saiu..... **${rndNum}**!`);
+    } else {
+      message.reply('`.roll <numero>`, seu burro!');
+    }
+
   }
 
 });
