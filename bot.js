@@ -27,15 +27,13 @@ function isUserInFile(array, string){
   return false;
 }
 
-function pluck(array) {
+function getMemberRoles(array) {
     return array.map(function(item) { return item["name"]; });
 }
 
 function hasRole(member, role){
-  console.log(pluck(member.roles));
   for(var i = 0;i<=role.length;i++){
-    console.log(role[i]);
-    if(pluck(member.roles).includes(role[i])){
+    if(getMemberRoles(member.roles).includes(role[i])){
       return true;
     }
   }
@@ -110,6 +108,14 @@ bot.on('message', message => {
   let args = message.content.split(" ").slice(1);
   let argc = args.length;
 
+/* permitions template
+if(hasRole(message.member,modRoles)){
+
+} else {
+  message.reply('Não tens permição para fazer este comando!');
+}
+*/
+
   //ping-pong
   if (command == "ping"){
     message.channel.sendMessage('PONG!');
@@ -130,11 +136,15 @@ bot.on('message', message => {
   }
   //diz o que aparece depois do say e apaga a mensagem original
   if(command == "say"){
-    if (args.length > 0){
-      message.delete();
-      message.channel.sendMessage(args.join(" "));
+    if(hasRole(message.member,modRoles)){
+      if (args.length > 0){
+        message.delete();
+        message.channel.sendMessage(args.join(" "));
+      } else {
+        message.reply('`.say [args]`, seu burro!');
+      }
     } else {
-      message.reply('`.say [args]`, seu burro!');
+      message.reply('Não tens permição para fazer este comando!');
     }
   }
   //apaga x memsagens
@@ -149,6 +159,8 @@ bot.on('message', message => {
         }
         message.channel.fetchMessages({limit: msgs}).then(message.channel.bulkDelete(msgs));
       }
+    } else {
+      message.reply('Não tens permição para fazer este comando!');
     }
   }
   //muda o nick proprio ou de @pessoa
@@ -159,6 +171,8 @@ bot.on('message', message => {
           let newNick = message.content.split(" ").slice(2).join(" ");
           message.guild.member(message.mentions.users.first()).setNickname(newNick);
           message.reply(`Nick de **${message.mentions.users.first().username}** alterado!`);
+        } else {
+          message.reply('Não tens permição para alterar o nome de outras pessoas!');
         }
       } else {
         message.member.setNickname(args.join(" "));
@@ -197,16 +211,20 @@ bot.on('message', message => {
       message.channel.sendMessage('Cursos disponiveis: ' + cursos.join(", "));
     }
     if(args[0] === 'join'){
-      let cursoRole = message.guild.roles.find("name",args[1]);
-      if(!cursoRole) {
-        message.reply('Esse Curso não existe!');
+      if(hasRole(message.member,cursos)){
+        message.reply('Só podes estar num curso de cada vez!');
       } else {
-        if(message.member.roles.has(cursoRole.id)){
-          message.reply('Já estás nesse curso!');
-          return;
+        let cursoRole = message.guild.roles.find("name",args[1]);
+        if(!cursoRole) {
+          message.reply('Esse Curso não existe!');
+        } else {
+          if(message.member.roles.has(cursoRole.id)){
+            message.reply('Já estás nesse curso!');
+            return;
+          }
+          message.member.addRole(cursoRole);
+          message.reply('Foste adicionado!');
         }
-        message.member.addRole(cursoRole);
-        message.reply('Foste adicionado!');
       }
     }
     if(args[0] == 'leave'){
@@ -233,11 +251,12 @@ bot.on('message', message => {
       //message.channel.sendMessage('Cursos disponiveis: ' + cursos.join(", "));
     }
     if(args[0] == 'join'){
-      if((cursos.indexOf(message.content.split(" ").slice(2).join(" ")) > -1) || blockedRoles.indexOf(message.content.split(" ").slice(2).join(" ")) > -1){
+      let canalName = message.content.split(" ").slice(2).join(" "));
+      if((cursos.indexOf(canalName) > -1) || blockedRoles.indexOf(canalName) > -1){
         message.reply("Bloqueado");
         return;
       }
-      let canalRole = message.guild.roles.find("name",args[1]);
+      let canalRole = message.guild.roles.find("name",canalName);
       if(!canalRole) {
         message.reply('Esse canal não existe!');
       } else {
@@ -250,11 +269,11 @@ bot.on('message', message => {
       }
     }
     if(args[0] == 'leave'){
-      if((cursos.indexOf(message.content.split(" ").slice(2).join(" ")) > -1) || blockedRoles.indexOf(message.content.split(" ").slice(2).join(" ")) > -1){
+      if((cursos.indexOf(canalName) > -1) || blockedRoles.indexOf(canalName) > -1){
         message.reply("Bloqueado");
         return;
       }
-      let canalRole = message.guild.roles.find("name",args[1]);
+      let canalRole = message.guild.roles.find("name",canalName);
       if(!canalRole) {
         message.reply('Esse canal nao existe!');
       } else {
