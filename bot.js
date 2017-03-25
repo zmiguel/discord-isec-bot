@@ -32,11 +32,12 @@ function pluck(array) {
 }
 
 function hasRole(member, role){
-  if(pluck(member.roles).includes(role)){
-    return true;
-  } else {
-    return false;
+  for(var i = 0;i<=role.length;i++){
+    if(pluck(member.roles).includes(role[i]))
+      return true;
+    }
   }
+  return false;
 }
 
 var cursos = ["Civil", "EGI", "Electromecânica", "Electrotécnica", "Informática", "Mecânica", "Química", "Biomédica", "Biológica", "Bioengenharia"];
