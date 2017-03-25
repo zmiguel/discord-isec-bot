@@ -27,8 +27,21 @@ function isUserInFile(array, string){
   return false;
 }
 
+function pluck(array) {
+    return array.map(function(item) { return item["name"]; });
+}
+
+function hasRole(member, role){
+  if(pluck(member.roles).includes(role)){
+    return true;
+  } else {
+    return false;
+  }
+}
+
 var cursos = ["Civil", "EGI", "Electromecânica", "Electrotécnica", "Informática", "Mecânica", "Química", "Biomédica", "Biológica", "Bioengenharia"];
 var blockedRoles = ["Mod", "A.E.", "Alunos", "Chefe Delas", "Pseudo-Chulo", "bot"];
+var modRoles = ["Mod", "Pseudo-Chulo", "A.E.", "Chefe Delas", "Bot"];
 
 bot.on("guildMemberAdd", (member) => { //memsagem quando alguem novo entra no servidor
     let guild = member.guild;
@@ -123,23 +136,27 @@ bot.on('message', message => {
   }
   //apaga x memsagens
   if(command == "del"){
-    if (argc < 3){
-      var msgs;
-      if(argc == 0){
-        msgs = 2;
-      } else {
-        msgs = parseInt(args[0]) + 1;
+    if(hasRole(message.member,modRoles)){
+      if (argc < 3){
+        var msgs;
+        if(argc == 0){
+          msgs = 2;
+        } else {
+          msgs = parseInt(args[0]) + 1;
+        }
+        message.channel.fetchMessages({limit: msgs}).then(message.channel.bulkDelete(msgs));
       }
-      message.channel.fetchMessages({limit: msgs}).then(message.channel.bulkDelete(msgs));
     }
   }
   //muda o nick proprio ou de @pessoa
   if(command == "nick"){
     if (argc > 0){
       if(message.guild.member(message.mentions.users.first()) != null){
-        let newNick = message.content.split(" ").slice(2).join(" ");
-        message.guild.member(message.mentions.users.first()).setNickname(newNick);
-        message.reply(`Nick de **${message.mentions.users.first().username}** alterado!`);
+        if(hasRole(message.member,modRoles)){
+          let newNick = message.content.split(" ").slice(2).join(" ");
+          message.guild.member(message.mentions.users.first()).setNickname(newNick);
+          message.reply(`Nick de **${message.mentions.users.first().username}** alterado!`);
+        }
       } else {
         message.member.setNickname(args.join(" "));
         message.reply('Nickname alterado!');
@@ -150,18 +167,22 @@ bot.on('message', message => {
   }
   //muda o jogo actual do bot
   if(command == "game"){
-    if (argc > 0){
-      if(argc == 1){
-        if(args[0] == 'none'){
-          message.client.user.setGame();
+    if(hasRole(message.member,modRoles)){
+      if (argc > 0){
+        if(argc == 1){
+          if(args[0] == 'none'){
+            message.client.user.setGame();
+          } else {
+            message.client.user.setGame(args.join(" "));
+          }
         } else {
           message.client.user.setGame(args.join(" "));
         }
       } else {
-        message.client.user.setGame(args.join(" "));
+        message.reply('`.game <texto>`, seu burro!!');
       }
     } else {
-      message.reply('`.game <texto>`, seu burro!!');
+      message.reply('Não tens permição para fazer este comando!');
     }
   }
   //adicionate aos canais do curso
