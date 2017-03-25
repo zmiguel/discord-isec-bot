@@ -42,7 +42,7 @@ function hasRole(member, role){
 
 var cursos = ["Civil", "EGI", "Electromecânica", "Electrotécnica", "Informática", "Mecânica", "Química", "Biomédica", "Biológica", "Bioengenharia"];
 var blockedRoles = ["Mod", "A.E.", "Alunos", "Chefe Delas", "Pseudo-Chulo", "bot"];
-var modRoles = ["Mod", "Pseudo-Chulo", "A.E.", "Chefe Delas", "Bot"];
+var modRoles = ["Mod", "Pseudo-Chulo", "A.E.", "Chefe Delas", "Bot", "dev"];
 
 bot.on("guildMemberAdd", (member) => { //memsagem quando alguem novo entra no servidor
     let guild = member.guild;
