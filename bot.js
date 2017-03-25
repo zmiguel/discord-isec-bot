@@ -251,7 +251,7 @@ if(hasRole(message.member,modRoles)){
       //message.channel.sendMessage('Cursos disponiveis: ' + cursos.join(", "));
     }
     if(args[0] == 'join'){
-      let canalName = message.content.split(" ").slice(2).join(" "));
+      let canalName = message.content.split(" ").slice(2).join(" ");
       if((cursos.indexOf(canalName) > -1) || blockedRoles.indexOf(canalName) > -1){
         message.reply("Bloqueado");
         return;
